@@ -117,14 +117,57 @@ Where postal_code = '111'
 > This can be done with SELECT, COUNT, JOIN and GROUP BY clauses. Your count should focus on a field in the Orders table, not the Customer table
 
 > There is more information about the COUNT clause on [W3 Schools](https://www.w3schools.com/sql/sql_count_avg_sum.asp)
+SELECT c.contact_name, COUNT(a.customer_id)
+FROM orders a JOIN customers c
+ON a.customer_id = c.customer_id
+GROUP BY c.contact_name
+
+
+
+
+
+
+
+
 
 
 ### list customers names and the number of orders per customer. Sort the list by number of orders in descending order. _Save-a-lot Markets should be at the top with 31 orders followed by _Ernst Handle_ with 30 orders. Last should be _Centro comercial Moctezuma_ with 1 order.
 > This can be done by adding an ORDER BY clause to the previous answer
 
+SELECT c.company_name, COUNT(a.customer_id) as orders
+FROM orders a JOIN customers c
+ON a.customer_id = c.customer_id
+GROUP BY c.company_name
+ORDER BY orders desc
+
+
+
+
+
+
+
+
+
+
 
 ### list orders grouped by customer's city showing number of orders per city. Returns 69 Records with _Aachen_ showing 6 orders and _Albuquerque_ showing 18 orders.
 > This is very similar to the previous two queries, however, it focuses on the City rather than the CustomerName
+
+SELECT c.city, COUNT(a.customer_id) as orders
+FROM orders a JOIN customers c
+ON a.customer_id = c.customer_id
+GROUP BY c.city
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Data Normalization
@@ -138,6 +181,46 @@ Take the following data and normalize it into a 3NF database.  You can use the w
 | Jane        | Ellie    | Dog      | Tiger      | Cat        | Toby       | Turtle     | No          | Yes          |
 | Bob         | Joe      | Horse    |            |            |            |            | No          | No           |
 | Sam         | Ginger   | Dog      | Miss Kitty | Cat        | Bubble     | Fish       | Yes         | No           |
+
+╔═══════════╦══════════════╦═════════════╦══════════════╗    
+║ PERSON ID ║ PERSON NAME  ║ FENCED YARD ║ CITY DWELLER ║
+╠═══════════╬══════════════╬═════════════╬══════════════╣
+║ 1         ║ Jane         ║ No          ║ Yes          ║
+╠═══════════╬══════════════╬═════════════╬══════════════╣
+║ 2         ║ Bob          ║ No          ║ No           ║
+╠═══════════╬══════════════╬═════════════╬══════════════╣
+║ 3         ║ Sam          ║ Yes         ║ No           ║
+╚═══════════╩══════════════╩═════════════╩══════════════╝
+╔════════╦════════════╦══════════╦═══════════╗
+║ PET ID ║ PET NAME   ║ PET TYPE ║ PERSON ID ║
+╠════════╬════════════╬══════════╬═══════════╣
+║ 1      ║ Ellie      ║ Dog      ║ 1         ║
+╠════════╬════════════╬══════════╬═══════════╣
+║ 2      ║ Toby       ║ Cat      ║ 1         ║
+╠════════╬════════════╬══════════╬═══════════╣
+║ 3      ║ Tiger      ║ Turtle   ║ 1         ║
+╠════════╬════════════╬══════════╬═══════════╣
+║ 4      ║ Joe        ║ Horse    ║ 2         ║
+╠════════╬════════════╬══════════╬═══════════╣
+║ 5      ║ Bubble     ║ Dog      ║ 3         ║
+╠════════╬════════════╬══════════╬═══════════╣
+║ 6      ║ Ginger     ║ Cat      ║ 3         ║
+╠════════╬════════════╬══════════╬═══════════╣
+║ 7      ║ Miss Kitty ║ Fish     ║ 3         ║
+╚════════╩════════════╩══════════╩═══════════╝
+
+
+				
+
+
+
+
+
+
+
+
+
+
 
 ---
 ## Stretch Goals
